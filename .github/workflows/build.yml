@@ -1,0 +1,26 @@
+name: 'build'
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build for ESP32-C3
+        shell: bash
+        run: |
+          wget --no-verbose https://github.com/xpack-dev-tools/riscv-none-embed-gcc-xpack/releases/download/v10.2.0-1.2/xpack-riscv-none-embed-gcc-10.2.0-1.2-linux-x64.tar.gz
+          tar xf xpack-riscv-none-embed-gcc-10.2.0-1.2-linux-x64.tar.gz
+          export PATH=$PWD/xpack-riscv-none-embed-gcc-10.2.0-1.2/bin:$PATH
+          cd examples/hello_world
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build .
+          bin_size=$(stat --format="%s" hello_world.bin)
+          expected_size=5440
+          size_tolerance=500
+          echo "Binary size: %{bin_size}"
+          test ${bin_size} -gt $(($expected_size - $size_tolerance)) || (echo "binary seems too small"; exit 1)
+          test ${bin_size} -lt $(($expected_size + $size_tolerance)) || (echo "binary seems too large"; exit 1)

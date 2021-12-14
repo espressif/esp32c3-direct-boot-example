@@ -77,7 +77,7 @@ This example contains the following parts:
    copy from `hello_world' [elf32-littleriscv] to `hello_world.bin' [binary]
    [3/3] Running utility command for hello_world-size
    text	   data	    bss	    dec	    hex	filename
-   7352	    128	    160	   7640	   1dd8	hello_world
+   5092	    136	    160	   5388	   150c	hello_world
    ```
    The following files will be generated:
    - `hello_world` — ELF output file
