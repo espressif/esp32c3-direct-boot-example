@@ -77,6 +77,23 @@ See README.md files in example directories for instructions:
 * [blink](examples/blink/README.md)
 * [hello_world](examples/hello_world/README.md)
 
+## Debugging using JTAG and GDB
+
+To debug the examples using JTAG and GDB, follow these steps:
+
+1. Install OpenOCD from https://github.com/espressif/openocd-esp32/releases. (At the time of writing, the upstream version of OpenOCD includes Espressif Xtensa-based chips, but not RISC-V ones, yet.)
+2. Add openocd to `PATH`
+3. Build one of the examples (for instance, `blink`), then launch GDB like this:
+   ```
+   riscv-none-elf-gdb -x ../../gdbinit build/blink
+   ```
+   This will use the provided [gdbinit](gdbinit) file to:
+   - Launch OpenOCD in pipe mode. Adjust the `gdbinit` file if you need to change OpenOCD launch configuration. You can also launch OpenOCD manually, in that case use `target extended-remote :3333` in `gdbinit`.
+   - Reset the target
+   - Set a temporary breakpoint at `main`
+   - Run until the breakpoint
+4. Now you can use GDB commands to step through the code as usual.
+
 ## Memory layout
 
 The following diagram illustrates the run-time memory layout and binary image layout when direct boot is used.
