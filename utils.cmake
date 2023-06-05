@@ -19,7 +19,7 @@ endfunction()
 
 function(make_binary elf_target filename)
     add_custom_target(${elf_target}-size ALL DEPENDS ${elf_target})
-    add_custom_command(TARGET ${elf_target}-size POST_BUILD COMMAND riscv-none-embed-size ${elf_target})
+    add_custom_command(TARGET ${elf_target}-size POST_BUILD COMMAND riscv-none-elf-size ${elf_target})
 
     add_custom_target(${filename}-binary ALL DEPENDS ${filename})
     add_custom_command(OUTPUT ${filename}
