@@ -29,7 +29,7 @@ SECTIONS
   _drom_start = ORIGIN(drom) + _irom_size;
   .rodata  _drom_start : AT(_irom_size)
   {
-    *(.rodata .rodata.* .gnu.linkonce.r.*)
+    *(.rodata .rodata.* .srodata .srodata.* .sdata2 .sdata2.* .gnu.linkonce.r.*)
     *(.rela.data .rela.data.* .rela.gnu.linkonce.r.*)
   } > drom
 
@@ -89,9 +89,7 @@ SECTIONS
   .sdata :
   {
     __SDATA_BEGIN__ = .;
-    *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
     *(.sdata .sdata.* .gnu.linkonce.s.*)
-    *(.sdata2 .sdata2.* .gnu.linkonce.s2.*)
   }
   . = ALIGN(4);
   _edata = .; PROVIDE (edata = .);
