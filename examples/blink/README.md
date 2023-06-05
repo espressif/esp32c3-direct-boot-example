@@ -11,7 +11,7 @@ Attach an LED and a current limiting resistor between GPIO 2 and 3V3 pins of an 
    ```bash
    cd examples/blink
    mkdir build
-   cmake -B build .
+   cmake -B build -G Ninja .
    cmake --build build
    ```
    You should get the following output at the end:

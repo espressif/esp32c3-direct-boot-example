@@ -7,7 +7,7 @@
    ```bash
    cd examples/hello_world
    mkdir build
-   cmake -B build .
+   cmake -B build -G Ninja .
    cmake --build build
    ```
    You should get the following output at the end:

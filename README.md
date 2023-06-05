@@ -61,7 +61,9 @@ This example contains the following parts:
 * [examples/blink/](examples/blink/) directory with an example project which blinks an LED.
 
 
-## Toolchain required
+## Prerequisites
+
+### Cross-compiler
 
 Download and install `riscv-none-elf-gcc` toolchain, for example from the [xPack project](https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases). 
 
@@ -70,6 +72,21 @@ This example has been built and tested with toolchain release `12.2.0-3`.
 Make sure the toolchain is added to your `PATH`.
 
 A different RISC-V toolchain can also be used, in this case you need to adjust [toolchain-rv32.cmake](toolchain-rv32.cmake).
+
+### Build tools
+
+This example uses CMake. Make sure that CMake and your build system of choice (e.g., Ninja or GNU Make) are also added to your `PATH`.
+
+### esptool.py
+
+To flash binaries into the ESP32-C3, [esptool.py](https://github.com/espressif/esptool) is used.
+
+If you have Python and pip installed, you can install esptool using:
+```bash
+pip install --user esptool
+```
+
+Windows users may alternatively download a pre-built executable from the [releases](https://github.com/espressif/esptool/releases) page. These executables don't require Python to be installed.
 
 ## Building and running the examples
 
