@@ -1,25 +1,40 @@
 name: 'build'
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        include:
+          - example: "blink"
+            expected_size: 1676
+          - example: "hello_world"
+            expected_size: 5548
     steps:
       - uses: actions/checkout@v2
       - name: Build for ESP32-C3
         shell: bash
         run: |
-          wget --no-verbose https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v12.2.0-3/xpack-riscv-none-elf-gcc-12.2.0-3-linux-x64.tar.gz
-          tar xf xpack-riscv-none-elf-gcc-12.2.0-3-linux-x64.tar.gz
-          export PATH=$PWD/xpack-riscv-none-elf-gcc-12.2.0-3/bin:$PATH
-          cd examples/hello_world
+          export TOOLCHAIN_VERSION="12.2.0-3"
+          export TOOLCHAIN_DIR="xpack-riscv-none-elf-gcc-${TOOLCHAIN_VERSION}"
+          export TOOLCHAIN_ARCHIVE="${TOOLCHAIN_DIR}-linux-x64.tar.gz"
+          export TOOLCHAIN_URL="https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v${TOOLCHAIN_VERSION}/${TOOLCHAIN_ARCHIVE}"
+          wget --no-verbose ${TOOLCHAIN_URL}
+          tar xf ${TOOLCHAIN_ARCHIVE}
+          export PATH=$PWD/${TOOLCHAIN_DIR}/bin:$PATH
+          cd examples/${{ matrix.example }}
           mkdir -p build
           cmake -S . -B build
           cmake --build build
-          bin_size=$(stat --format="%s" hello_world.bin)
-          expected_size=5202
+          bin_size=$(stat --format="%s" build/${{ matrix.example }}.bin)
+          expected_size=${{ matrix.expected_size }}
           size_tolerance=500
-          echo "Binary size: %{bin_size}"
+          echo "Binary size for ${{ matrix.example }} example: ${bin_size}, expected: ${expected_size}"
           test ${bin_size} -gt $(($expected_size - $size_tolerance)) || (echo "binary seems too small"; exit 1)
           test ${bin_size} -lt $(($expected_size + $size_tolerance)) || (echo "binary seems too large"; exit 1)
