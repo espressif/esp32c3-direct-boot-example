@@ -8,9 +8,14 @@ project(hello_world)
 add_executable(hello_world hello_world.c)
 
 add_subdirectory(${ROOT_DIR}/common common)
-target_link_libraries(hello_world PRIVATE common)
+add_subdirectory(${ROOT_DIR}/hal hal)
 
-target_compile_options(hello_world PUBLIC -Wall -Werror -Wextra)
+target_link_libraries(hello_world PRIVATE common hal)
+
+target_compile_options(hello_world PRIVATE -g -Og)
+target_link_options(hello_world PRIVATE -g)
+
+target_compile_options(hello_world PRIVATE -Wall -Werror -Wextra)
 
 include(${ROOT_DIR}/utils.cmake)
 add_linker_scripts(hello_world)

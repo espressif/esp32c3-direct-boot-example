@@ -1,3 +1,4 @@
+include(FetchContent)
 message(STATUS "Downloading esp-hal-components...")
 FetchContent_Declare(
     esp-hal-components
@@ -33,12 +34,16 @@ target_include_directories(hal PUBLIC
     ${esp_hal_components_srcdir}/components/hal/platform_port/include
 # FIXME: soc component depends on esp_common for ESP_ASSERT
     ${esp_hal_components_srcdir}/components/esp_common/include
+# FIXME: hal component depends on esp_rom due to efuse_ll.h
+    ${esp_hal_components_srcdir}/components/esp_rom/include
+    ${esp_hal_components_srcdir}/components/esp_rom/${target}
     ${config_dir}
     )
 
 target_sources(hal PRIVATE
     ${esp_hal_components_srcdir}/components/soc/${target}/gpio_periph.c
     ${esp_hal_components_srcdir}/components/hal/gpio_hal.c
+    ${esp_hal_components_srcdir}/components/hal/wdt_hal_iram.c
     )
 
 # FIXME: hal component can't be compiled with -Wall -Wextra -Werror:
