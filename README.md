@@ -102,10 +102,11 @@ To debug the examples using JTAG and GDB, follow these steps:
 2. Add openocd to `PATH`
 3. Build one of the examples (for instance, `blink`), then launch GDB like this:
    ```
-   riscv-none-elf-gdb -x ../../gdbinit build/blink
+   riscv-none-elf-gdb -x gdbinit build/blink
    ```
-   This will use the provided [gdbinit](gdbinit) file to:
+   This will use the provided gdbinit file to:
    - Launch OpenOCD in pipe mode. Adjust the `gdbinit` file if you need to change OpenOCD launch configuration. You can also launch OpenOCD manually, in that case use `target extended-remote :3333` in `gdbinit`.
+   - Flash the program over JTAG
    - Reset the target
    - Set a temporary breakpoint at `main`
    - Run until the breakpoint
