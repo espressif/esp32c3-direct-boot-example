@@ -1,0 +1,7 @@
+set remotetimeout 10
+target extended-remote | openocd -c "gdb_port pipe" -c "set ESP_RTOS none" -f "board/esp32c3-builtin.cfg" -c "init; reset halt"
+mon gdb_breakpoint_override hard
+mon flash write_image build/blink.bin 0 bin
+mon reset halt
+tb main
+c
