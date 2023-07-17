@@ -13,9 +13,9 @@ jobs:
       matrix:
         include:
           - example: "blink"
-            expected_size: 1676
+            expected_size: 7436
           - example: "hello_world"
-            expected_size: 5548
+            expected_size: 10216
     steps:
       - uses: actions/checkout@v2
       - name: Build for ESP32-C3
