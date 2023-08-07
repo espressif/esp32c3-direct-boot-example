@@ -14,7 +14,6 @@ target_link_libraries(blink PRIVATE common hal)
 
 target_compile_options(blink PRIVATE -g -Og)
 target_link_options(blink PRIVATE -g)
-
 target_compile_options(blink PRIVATE -Wall -Werror -Wextra)
 
 include(${ROOT_DIR}/utils.cmake)

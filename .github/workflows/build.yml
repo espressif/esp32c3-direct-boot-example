@@ -11,14 +11,24 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
+        target: [esp32c3, esp32h2]
+        example: ["blink", "hello_world"]
         include:
-          - example: "blink"
+          - target: esp32c3
+            example: "blink"
             expected_size: 7436
-          - example: "hello_world"
+          - target: esp32c3
+            example: "hello_world"
             expected_size: 10216
+          - target: esp32h2
+            example: "blink"
+            expected_size: 4561
+          - target: esp32h2
+            example: "hello_world"
+            expected_size: 8484
     steps:
       - uses: actions/checkout@v2
-      - name: Build for ESP32-C3
+      - name: Build ${{ matrix.example }} for ${{ matrix.target }}
         shell: bash
         run: |
           export TOOLCHAIN_VERSION="12.2.0-3"
@@ -30,7 +40,7 @@ jobs:
           export PATH=$PWD/${TOOLCHAIN_DIR}/bin:$PATH
           cd examples/${{ matrix.example }}
           mkdir -p build
-          cmake -S . -B build
+          cmake -S . -B build -D target=${{ matrix.target }}
           cmake --build build
           bin_size=$(stat --format="%s" build/${{ matrix.example }}.bin)
           expected_size=${{ matrix.expected_size }}
