@@ -2,7 +2,7 @@
 
 ## Hardware
 
-Attach an LED and a current limiting resistor between GPIO 2 and 3V3 pins of an ESP32-C3 development board.
+Attach an LED and a current limiting resistor between GPIO 2 and 3V3 pins of a development board.
 
 ## Building and running the example
 
@@ -11,9 +11,10 @@ Attach an LED and a current limiting resistor between GPIO 2 and 3V3 pins of an 
    ```bash
    cd examples/blink
    mkdir build
-   cmake -B build -G Ninja .
+   cmake -B build -D target=esp32c3 -G Ninja .
    cmake --build build
    ```
+   For other chip, please use the `target=chip_name`, where `chip_name` can be any from the supported ones.
    You should get the following output at the end:
    ```
    [3/4] Running utility command for blink-size
@@ -31,4 +32,4 @@ Attach an LED and a current limiting resistor between GPIO 2 and 3V3 pins of an 
    esptool.py --port /dev/ttyUSB0 --baud 921600 write_flash 0x0000 build/blink.bin
    ```
    (Adjust the serial port name as needed.)
-4. The LED attached to GPIO 2 should be blinking at around 3 Hz rate.
+4. The LED attached to GPIO 2 should be blinking at around 3 Hz rate for ESP32-C3 (frequency can be vary depending on the maximum frequency of the selected chip).

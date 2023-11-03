@@ -1,4 +1,4 @@
-set(LD_DIR "${CMAKE_CURRENT_LIST_DIR}/ld")
+set(LD_DIR "${CMAKE_CURRENT_LIST_DIR}/ld/${target}")
 
 function(__add_linker_script_and_dep target ldscript)
     set(ldscript_path ${LD_DIR}/${ldscript})
@@ -7,7 +7,7 @@ function(__add_linker_script_and_dep target ldscript)
 endfunction()
 
 function(add_linker_scripts target)
-    __add_linker_script_and_dep(${target} esp32c3.ld)
+    __add_linker_script_and_dep(${target} memory.ld)
     __add_linker_script_and_dep(${target} common.ld)
     __add_linker_script_and_dep(${target} romfuncs.ld)
 endfunction()

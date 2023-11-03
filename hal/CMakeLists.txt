@@ -15,8 +15,14 @@ FetchContent_GetProperties(
 )
 message(STATUS "Downloaded esp-hal-components into ${esp_hal_components_srcdir}")
 
+set(supported_mcu esp32c3 esp32h2)
+if(DEFINED target AND target IN_LIST supported_mcu)
+    message(STATUS "Configure project for ${target} ... ")
+else()
+    message(FATAL_ERROR "Invalid target. \nUse argument '-D target=chip_name', where chip_name=[${supported_mcu}]")
+endif()
+
 # FIXME: soc component depends on sdkconfig.h
-set(target esp32c3)
 string(TOUPPER ${target} target_uppercase)
 set(config_dir ${CMAKE_CURRENT_BINARY_DIR}/config)
 file(MAKE_DIRECTORY ${config_dir})

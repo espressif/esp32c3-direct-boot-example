@@ -7,9 +7,10 @@
    ```bash
    cd examples/hello_world
    mkdir build
-   cmake -B build -G Ninja .
+   cmake -B build -D target=esp32c3 -G Ninja .
    cmake --build build
    ```
+   For other chip, please use the `target=chip_name`, where `chip_name` can be any from the supported ones.
    You should get the following output at the end:
    ```
    [2/3] Generating hello_world.bin
